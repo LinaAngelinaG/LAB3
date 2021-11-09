@@ -2,31 +2,32 @@ package com.company;
 
 public class Accountant {
     public static void paySalary(Employee e){
-        Integer sum;
-        if(e.getRole() == Employee.Role.EXECUTIVE){
-            sum = 30000;
-        }
-        else if(e.getRole() == Employee.Role.MANAGER){
-            sum = 20000;
+        if (e != null){
+            System.out.println("Salary  =  " + e.getSalary() + " for:");
+            System.out.println(e.toString());
         }
         else{
-            sum = 10000;
+            System.out.println("Empty employee");
         }
-        System.out.println("Salary  =  " + sum + " for:");
-        System.out.println(e.toString());
     }
     public static void payPremium(Employee e){
-        Integer sum;
-        if(e.getRole() == Employee.Role.EXECUTIVE){
-            sum = 10000;
-        }
-        else if(e.getRole() == Employee.Role.MANAGER){
-            sum = 4000;
+        if(e != null){
+            Integer s;
+            switch(e.getRole()){
+                case EXECUTIVE:
+                    s = 10000;
+                    break;
+                case MANAGER:
+                    s = 4000;
+                    break;
+                default:
+                    s = 1000;
+            }
+            System.out.println("Premium  =  " + s + " for:");
+            System.out.println(e.toString());
         }
         else{
-            sum = 1000;
+            System.out.println("Empty employee");
         }
-        System.out.println("Premium  =  " + sum + " for:");
-        System.out.println(e.toString());
     }
 }

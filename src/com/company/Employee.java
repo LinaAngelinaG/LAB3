@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Employee {
-    private String givenName;  /**/
-    private String surName;   /**/
+    private String givenName;
+    private String surName;
     private Integer age;
-    private final Gender gender;
+    private Gender gender;
     private Role role;
     private String dept;
     private String eMail;
@@ -17,13 +17,11 @@ public class Employee {
     private String city;
     private String state;
     private Integer code;
-
-    protected enum Gender {MALE, FEMALE};
-    protected enum Role {STAFF, MANAGER, EXECUTIVE};
+    private Integer salary;
 
     public static class EmployeeBuilder {
-        private String givenName;    /**/
-        private String surName;     /**/
+        private String givenName;
+        private String surName;
         private Integer age;
         private Gender gender;
         private Role role;
@@ -34,79 +32,110 @@ public class Employee {
         private String city;
         private String state;
         private Integer code;
+        private Integer salary;
 
-        public EmployeeBuilder(){ //neccessary or not?
+        public EmployeeBuilder() { //neccessary or not?
             super();
         }
-        public EmployeeBuilder givenName(String name){
+
+        public EmployeeBuilder givenName(String name) {
             this.givenName = name;
             return this;
         }
-        public EmployeeBuilder surName(String name){
+
+        public EmployeeBuilder surName(String name) {
             this.surName = name;
             return this;
         }
-        public EmployeeBuilder age(Integer age){
+
+        public EmployeeBuilder age(Integer age) {
             this.age = age;
             return this;
         }
-        public EmployeeBuilder gender(Gender name){
+
+        public EmployeeBuilder gender(Gender name) {
             this.gender = name;
             return this;
         }
-        public EmployeeBuilder role(Role name){
-            this.role = name;
+
+        public EmployeeBuilder role (Role name) {
+            role = name;
             return this;
         }
-        public EmployeeBuilder dept(String name){
+
+        public EmployeeBuilder salary () {
+            switch(role){
+                case EXECUTIVE:
+                    salary = 30000;
+                    break;
+                case MANAGER:
+                    salary = 20000;
+                    break;
+                default:
+                    salary = 10000;
+            }
+            return this;
+        }
+
+        public EmployeeBuilder dept(String name) {
             this.dept = name;
             return this;
         }
-        public EmployeeBuilder eMail(String name){
+
+        public EmployeeBuilder eMail(String name) {
             this.eMail = name;
             return this;
         }
-        public EmployeeBuilder phone(String name){
+
+        public EmployeeBuilder phone(String name) {
             this.phone = name;
             return this;
         }
-        public EmployeeBuilder address(String name){
+
+        public EmployeeBuilder address(String name) {
             this.address = name;
             return this;
         }
-        public EmployeeBuilder city(String name){
+
+        public EmployeeBuilder city(String name) {
             this.city = name;
             return this;
         }
-        public EmployeeBuilder state(String name){
+
+        public EmployeeBuilder state(String name) {
             this.state = name;
             return this;
         }
-        public EmployeeBuilder code(Integer i){
+
+        public EmployeeBuilder code(Integer i) {
             this.code = i;
             return this;
         }
-        public Employee build() throws Exception{
-            if(validEmpl()){
+
+        public Employee build() throws Exception {
+            if (validEmpl()) {
                 return new Employee(this);
             }
             System.out.println("There's not enough parametrs to create an Employee");
             return null;
         }
-        private boolean validEmpl(){
-            return (givenName != null && surName!= null && age > 0 && gender != null && role != null && dept != null && address != null && city != null && code > 0 && phone != null && eMail != null && state != null);
+
+        private boolean validEmpl() {
+            return (givenName != null && surName != null && age > 0 && gender != null && role != null && dept != null && address != null && city != null && code > 0 && phone != null && eMail != null && state != null);
         }
     }
+
     public Employee(EmployeeBuilder builder) throws Exception {
-        if(builder == null){
+        if (builder == null) {
             throw new Exception("Impossible to build without a builder!");
         }
-        
+
         givenName = builder.givenName;
         surName = builder.surName;
         age = builder.age;
         gender = builder.gender;
         role = builder.role;
+        salary = builder.salary;
         dept = builder.dept;
         eMail = builder.eMail;
         phone = builder.phone;
@@ -119,41 +148,52 @@ public class Employee {
     public String getGivenName() {
         return givenName;
     }
-    public Integer getAge() {
-        return age;
-    }
+
+    public Integer getAge() { return age;}
+
     public Role getRole() {
         return role;
     }
+
     public String geteMail() {
         return eMail;
     }
+
     public String getDept() {
         return dept;
     }
+
     public String getPhone() {
         return phone;
     }
+
     public String getCity() {
         return city;
     }
+
     public String getAddress() {
         return address;
     }
+
     public Integer getCode() {
         return code;
     }
+
     public String getState() {
         return state;
     }
+
     public Gender getGender() {
         return gender;
     }
+
     public String getSurName() {
         return surName;
     }
 
-    public String toString(){
+    public Integer getSalary() { return salary;}
+
+    public String toString() {
         StringBuffer b = new StringBuffer();
         b.append("Employee:: givenName = ").append(givenName).append(", surname = ").append(surName);
         b.append(", age = ").append(age).append(", gender = ").append(gender);
@@ -167,11 +207,12 @@ public class Employee {
     static List<Employee> createShortList() throws Exception {
         List<Employee> list = new ArrayList<>();
         list.add(
-                new Employee.EmployeeBuilder()
+                new EmployeeBuilder()
                         .givenName("Anna")
                         .surName("Gurec")
                         .gender(Gender.FEMALE)
                         .role(Role.MANAGER)
+                        .salary()
                         .dept("Consulting")
                         .state("Missury")
                         .city("Frntlin")
@@ -188,6 +229,7 @@ public class Employee {
                         .surName("Fermes")
                         .gender(Gender.MALE)
                         .role(Role.STAFF)
+                        .salary()
                         .dept("Buisness_intelligence")
                         .state("Vuas")
                         .city("Fock")
@@ -204,6 +246,7 @@ public class Employee {
                         .surName("Kores")
                         .gender(Gender.FEMALE)
                         .role(Role.EXECUTIVE)
+                        .salary()
                         .dept("Statistics")
                         .state("Missury")
                         .city("Frntlin")
@@ -220,6 +263,7 @@ public class Employee {
                         .surName("Dock")
                         .gender(Gender.FEMALE)
                         .role(Role.STAFF)
+                        .salary()
                         .dept("Buisness_intelligence")
                         .state("Dosce")
                         .city("Fraen")
@@ -236,6 +280,7 @@ public class Employee {
                         .surName("Grruc")
                         .gender(Gender.MALE)
                         .role(Role.EXECUTIVE)
+                        .salary()
                         .dept("Consulting")
                         .state("Missury")
                         .city("Frntlin")
@@ -252,7 +297,8 @@ public class Employee {
                         .surName("Duec")
                         .gender(Gender.FEMALE)
                         .role(Role.EXECUTIVE)
-                        .dept("Consulting")
+                        .salary()
+                        .dept("Buisness_intelligence")
                         .state("Misssip")
                         .city("Douper")
                         .address("Tiggerr 32")
@@ -268,6 +314,7 @@ public class Employee {
                         .surName("Tocker")
                         .gender(Gender.MALE)
                         .role(Role.MANAGER)
+                        .salary()
                         .dept("Statistics")
                         .state("Missury")
                         .city("Wrotl")
@@ -284,6 +331,7 @@ public class Employee {
                         .surName("Gerck")
                         .gender(Gender.FEMALE)
                         .role(Role.STAFF)
+                        .salary()
                         .dept("Consulting")
                         .state("Missury")
                         .city("Frntlin")
